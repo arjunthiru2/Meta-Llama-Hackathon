@@ -1,101 +1,217 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+interface FormData {
+  roleValue: string;
+  interestField: string;
+  location: string;
+  companySize: string;
+  skills: string[];
+  careerImportance: string;
+  educationLevel: string;
+  workEnvironment: string;
+  careerGrowthImportance: string;
+  workStyle: string;
+  motivation: string;
+}
+
+export default function PreferencesPage() {
+  const router = useRouter();
+
+  const [formData, setFormData] = useState<FormData>({
+    roleValue: "",
+    interestField: "",
+    location: "",
+    companySize: "",
+    skills: [],
+    careerImportance: "",
+    educationLevel: "",
+    workEnvironment: "",
+    careerGrowthImportance: "",
+    workStyle: "",
+    motivation: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSkillsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      skills: checked ? [...prev.skills, value] : prev.skills.filter((skill) => skill !== value),
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Construct URL query parameters from formData
+    const queryParams = new URLSearchParams(
+      Object.entries(formData).reduce((acc, [key, value]) => {
+        if (Array.isArray(value)) {
+          acc[key] = value.join(","); // Join arrays into a comma-separated string
+        } else if (value) {
+          acc[key] = value; // Only include non-empty values
+        }
+        return acc;
+      }, {} as Record<string, string>)
+    );
+  
+    router.push(`/calculator?${queryParams.toString()}`); // Redirect with preferences in query
+  };
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-100 to-white p-8">
+      <h1 className="text-4xl font-bold mb-6">Set Your Preferences</h1>
+      <form className="max-w-lg w-full space-y-6" onSubmit={handleSubmit}>
+        {/* Role Value */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What do you value most in a role?</label>
+          <select name="roleValue" className="w-full p-3 border rounded-lg" value={formData.roleValue} onChange={handleChange}>
+            <option value="">Select a value</option>
+            <option value="Impact">Impact</option>
+            <option value="Recognition">Recognition</option>
+            <option value="Reward">Reward</option>
+            <option value="Work-Life Balance">Work-Life Balance</option>
+          </select>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Interest Field */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What fields interest you the most?</label>
+          <select name="interestField" className="w-full p-3 border rounded-lg" value={formData.interestField} onChange={handleChange}>
+            <option value="">Select a field</option>
+            <option value="AI/ML">Artificial Intelligence/Machine Learning (AI/ML)</option>
+            <option value="SWE">Software Engineering (SWE)</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+          </select>
+        </div>
+
+        {/* Location */}
+        <div>
+          <label className="block text-lg font-medium mb-2">Where would you like to work in the future?</label>
+          <select name="location" className="w-full p-3 border rounded-lg" value={formData.location} onChange={handleChange}>
+            <option value="">Select a location</option>
+            <option value="US">United States</option>
+            <option value="Canada">Canada</option>
+          </select>
+        </div>
+
+        {/* Company Size */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What size of company appeals to you the most?</label>
+          <select name="companySize" className="w-full p-3 border rounded-lg" value={formData.companySize} onChange={handleChange}>
+            <option value="">Select a size</option>
+            <option value="Small">Small: Flexible, informal, hands-on roles, close-knit team, less structure</option>
+            <option value="Medium">Medium: More organized, room for growth, some structure, clear roles, collaborative</option>
+            <option value="Large">Large: Established processes, more resources, specialized roles, greater stability, hierarchical</option>
+          </select>
+        </div>
+
+        {/* Skills */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What are your current skills or skills you want to learn?</label>
+          <div className="space-y-2">
+            {["Coding", "Logical Thinking", "Problem Solving", "Communication", "Self-Expression", "Management"].map((skill) => (
+              <div key={skill}>
+                <label>
+                  <input
+                    type="checkbox"
+                    value={skill}
+                    checked={formData.skills.includes(skill)}
+                    onChange={handleSkillsChange}
+                    className="mr-2"
+                  />
+                  {skill}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Career Importance */}
+        <div>
+          <label className="block text-lg font-medium mb-2">How important is a lucrative career to you?</label>
+          <select name="careerImportance" className="w-full p-3 border rounded-lg" value={formData.careerImportance} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Very important">Very important</option>
+            <option value="Important">Important</option>
+            <option value="Somewhat important">Somewhat important</option>
+            <option value="Not important">Not important</option>
+          </select>
+        </div>
+
+        {/* Education Level */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What stage are you at in your education?</label>
+          <select name="educationLevel" className="w-full p-3 border rounded-lg" value={formData.educationLevel} onChange={handleChange}>
+            <option value="">Select your level</option>
+            <option value="Elementary">Elementary</option>
+            <option value="High School">High School</option>
+            <option value="Undergraduate">Undergraduate (1st Year)</option>
+            <option value="Master’s">Master’s (1st Year)</option>
+          </select>
+        </div>
+
+        {/* Work Environment */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What type of work environment do you prefer?</label>
+          <select name="workEnvironment" className="w-full p-3 border rounded-lg" value={formData.workEnvironment} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="On-Site">On-Site</option>
+          </select>
+        </div>
+
+        {/* Career Growth Importance */}
+        <div>
+          <label className="block text-lg font-medium mb-2">How important is career growth to you?</label>
+          <select name="careerGrowthImportance" className="w-full p-3 border rounded-lg" value={formData.careerGrowthImportance} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Very important">Very important</option>
+            <option value="Important">Important</option>
+            <option value="Somewhat important">Somewhat important</option>
+            <option value="Not important">Not important</option>
+          </select>
+        </div>
+
+        {/* Work Style */}
+        <div>
+          <label className="block text-lg font-medium mb-2">Do you prefer working independently or as part of a team?</label>
+          <select name="workStyle" className="w-full p-3 border rounded-lg" value={formData.workStyle} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Independently">Independently</option>
+            <option value="In a team">In a team</option>
+            <option value="A mix of both">A mix of both</option>
+          </select>
+        </div>
+
+        {/* Motivation */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What motivates you to excel at work?</label>
+          <select name="motivation" className="w-full p-3 border rounded-lg" value={formData.motivation} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Challenges">Challenges</option>
+            <option value="Achieving goals">Achieving goals</option>
+            <option value="Recognition">Recognition</option>
+            <option value="Financial rewards">Financial rewards</option>
+            <option value="Collaboration">Collaboration</option>
+          </select>
+        </div>
+
+        {/* Submit Button */}
+        <div>
+          <button type="submit" className="w-full p-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+            Continue to Calculator
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
