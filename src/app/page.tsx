@@ -174,6 +174,16 @@ export default function CalculatorPage() {
               Set Preferences
             </button>
           </div>
+
+          {/* Chatbot Button */}
+          <div className="mt-4">
+            <button
+              onClick={() => router.push('/chatbot')}
+              className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition-colors"
+            >
+              TGPAI
+            </button>
+          </div>
         </div>
       </main>
     </div>
