@@ -181,7 +181,7 @@ export default function CalculatorPage() {
               onClick={() => router.push('/chatbot')}
               className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg transition-colors"
             >
-              TGPAI
+              Chatbot
             </button>
           </div>
         </div>

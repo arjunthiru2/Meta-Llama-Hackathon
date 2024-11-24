@@ -42,7 +42,7 @@ export default function ChatbotPage() {
     <div className="flex flex-col items-center justify-between min-h-screen bg-gradient-to-b from-blue-100 to-white p-8">
       {/* Chat Header */}
       <header className="text-center mb-6">
-        <h1 className="text-4xl md:text-6xl font-bold text-gradient">Chat with TGPAI</h1>
+        <h1 className="text-4xl md:text-6xl font-bold text-gradient">TGP AI</h1>
       </header>
 
       {/* Chat Container */}
