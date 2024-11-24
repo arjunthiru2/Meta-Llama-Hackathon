@@ -8,7 +8,7 @@ interface FormData {
   interestField?: string;
   location?: string;
   companySize?: string;
-  skills?: string[];
+  skills: string[];
   careerImportance?: string;
   educationLevel?: string;
   workEnvironment?: string;
@@ -61,12 +61,7 @@ export default function PreferencesPage() {
         {/* Role Value */}
         <div>
           <label className="block text-lg font-medium mb-2">What do you value most in a role?</label>
-          <select
-            name="roleValue"
-            className="w-full p-3 border rounded-lg"
-            value={formData.roleValue || ""}
-            onChange={handleChange}
-          >
+          <select name="roleValue" className="w-full p-3 border rounded-lg" value={formData.roleValue} onChange={handleChange}>
             <option value="">Select a value</option>
             <option value="Impact">Impact</option>
             <option value="Recognition">Recognition</option>
@@ -78,12 +73,7 @@ export default function PreferencesPage() {
         {/* Interest Field */}
         <div>
           <label className="block text-lg font-medium mb-2">What fields interest you the most?</label>
-          <select
-            name="interestField"
-            className="w-full p-3 border rounded-lg"
-            value={formData.interestField || ""}
-            onChange={handleChange}
-          >
+          <select name="interestField" className="w-full p-3 border rounded-lg" value={formData.interestField} onChange={handleChange}>
             <option value="">Select a field</option>
             <option value="AI/ML">Artificial Intelligence/Machine Learning (AI/ML)</option>
             <option value="SWE">Software Engineering (SWE)</option>
@@ -95,12 +85,7 @@ export default function PreferencesPage() {
         {/* Location */}
         <div>
           <label className="block text-lg font-medium mb-2">Where would you like to work in the future?</label>
-          <select
-            name="location"
-            className="w-full p-3 border rounded-lg"
-            value={formData.location || ""}
-            onChange={handleChange}
-          >
+          <select name="location" className="w-full p-3 border rounded-lg" value={formData.location} onChange={handleChange}>
             <option value="">Select a location</option>
             <option value="US">United States</option>
             <option value="Canada">Canada</option>
@@ -110,16 +95,11 @@ export default function PreferencesPage() {
         {/* Company Size */}
         <div>
           <label className="block text-lg font-medium mb-2">What size of company appeals to you the most?</label>
-          <select
-            name="companySize"
-            className="w-full p-3 border rounded-lg"
-            value={formData.companySize || ""}
-            onChange={handleChange}
-          >
+          <select name="companySize" className="w-full p-3 border rounded-lg" value={formData.companySize} onChange={handleChange}>
             <option value="">Select a size</option>
-            <option value="Small">Small</option>
-            <option value="Medium">Medium</option>
-            <option value="Large">Large</option>
+            <option value="Small">Small: Flexible, informal, hands-on roles, close-knit team, less structure</option>
+            <option value="Medium">Medium: More organized, room for growth, some structure, clear roles, collaborative</option>
+            <option value="Large">Large: Established processes, more resources, specialized roles, greater stability, hierarchical</option>
           </select>
         </div>
 
@@ -127,23 +107,92 @@ export default function PreferencesPage() {
         <div>
           <label className="block text-lg font-medium mb-2">What are your current skills or skills you want to learn?</label>
           <div className="space-y-2">
-            {["Coding", "Logical Thinking", "Problem Solving", "Communication", "Self-Expression", "Management"].map(
-              (skill) => (
-                <div key={skill}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      value={skill}
-                      checked={formData.skills?.includes(skill) || false}
-                      onChange={handleSkillsChange}
-                      className="mr-2"
-                    />
-                    {skill}
-                  </label>
-                </div>
-              )
-            )}
+            {["Coding", "Logical Thinking", "Problem Solving", "Communication", "Self-Expression", "Management"].map((skill) => (
+              <div key={skill}>
+                <label>
+                  <input
+                    type="checkbox"
+                    value={skill}
+                    checked={formData.skills.includes(skill)}
+                    onChange={handleSkillsChange}
+                    className="mr-2"
+                  />
+                  {skill}
+                </label>
+              </div>
+            ))}
           </div>
+        </div>
+
+        {/* Career Importance */}
+        <div>
+          <label className="block text-lg font-medium mb-2">How important is a lucrative career to you?</label>
+          <select name="careerImportance" className="w-full p-3 border rounded-lg" value={formData.careerImportance} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Very important">Very important</option>
+            <option value="Important">Important</option>
+            <option value="Somewhat important">Somewhat important</option>
+            <option value="Not important">Not important</option>
+          </select>
+        </div>
+
+        {/* Education Level */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What stage are you at in your education?</label>
+          <select name="educationLevel" className="w-full p-3 border rounded-lg" value={formData.educationLevel} onChange={handleChange}>
+            <option value="">Select your level</option>
+            <option value="Elementary">Elementary</option>
+            <option value="High School">High School</option>
+            <option value="Undergraduate">Undergraduate (1st Year)</option>
+            <option value="Master’s">Master’s (1st Year)</option>
+          </select>
+        </div>
+
+        {/* Work Environment */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What type of work environment do you prefer?</label>
+          <select name="workEnvironment" className="w-full p-3 border rounded-lg" value={formData.workEnvironment} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="On-Site">On-Site</option>
+          </select>
+        </div>
+
+        {/* Career Growth Importance */}
+        <div>
+          <label className="block text-lg font-medium mb-2">How important is career growth to you?</label>
+          <select name="careerGrowthImportance" className="w-full p-3 border rounded-lg" value={formData.careerGrowthImportance} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Very important">Very important</option>
+            <option value="Important">Important</option>
+            <option value="Somewhat important">Somewhat important</option>
+            <option value="Not important">Not important</option>
+          </select>
+        </div>
+
+        {/* Work Style */}
+        <div>
+          <label className="block text-lg font-medium mb-2">Do you prefer working independently or as part of a team?</label>
+          <select name="workStyle" className="w-full p-3 border rounded-lg" value={formData.workStyle} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Independently">Independently</option>
+            <option value="In a team">In a team</option>
+            <option value="A mix of both">A mix of both</option>
+          </select>
+        </div>
+
+        {/* Motivation */}
+        <div>
+          <label className="block text-lg font-medium mb-2">What motivates you to excel at work?</label>
+          <select name="motivation" className="w-full p-3 border rounded-lg" value={formData.motivation} onChange={handleChange}>
+            <option value="">Select an option</option>
+            <option value="Challenges">Challenges</option>
+            <option value="Achieving goals">Achieving goals</option>
+            <option value="Recognition">Recognition</option>
+            <option value="Financial rewards">Financial rewards</option>
+            <option value="Collaboration">Collaboration</option>
+          </select>
         </div>
 
         {/* Submit Button */}
